@@ -2,5 +2,5 @@
 
 ## demos 
 - [moving square](moving-square)
-
+- [bad art](Lel-is-missing)
 ## projects
