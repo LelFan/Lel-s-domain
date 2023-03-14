@@ -5,6 +5,7 @@
 - [bad art](Lel-is-missing)
 -[balls](balls)
 -[rectongle](rectongle)
+-[terrain generation](terrain_gen)
 
 ## projects
 -[Arrays and Object Notation](Array_assignment)
