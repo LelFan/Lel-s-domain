@@ -10,27 +10,42 @@ let pizzaType = ["thin crust","normal crust","square", "thin square"];
 let orders = [];
 let pizz = [];
 let difficulty = 3;
+let big = 150;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  rectMode(CENTER);
+  noStroke();
+  createOrders();
 }
 
 function draw() {
   background(220);
-  createOrders();
+  createPizza();
 }
 
 function createOrders() {
-  for (let i=0; i <difficulty; i++) {
+  for (let i=0; i <3; i++) {
+
     let pizza = {
-      cheese: cheese[random(0,4)],
-      topping: toppings[random(0,5)],
-      time: pizzaType[random(0,4)]
+      cheese: cheese[round(random(0,4))],
+      topping: toppings[round(random(0,5))],
+      type: pizzaType[round(random(0,4))]
     };
     orders.push(pizza);
   }
 }
 
 function createPizza(){
-  
+  for (let i=0; i <difficulty; i++) {
+    if (orders[i].type === "square" || orders[i].type === "thin square") {
+      fill(222, 165, 80);
+      rect(width/(difficulty + 1) * (i+1), height/2,big,big);
+      
+    } 
+    // else {
+    //   fill(222, 165, 80);
+    //   ellipse(width/(difficulty + 1) * (i+1), height/2,big,big);
+    // }
+  }
 }
