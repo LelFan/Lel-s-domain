@@ -6,6 +6,8 @@
 -[balls](balls)
 -[rectongle](rectongle)
 -[terrain generation](terrain_gen)
+-[da griddy](griddy)
+
 
 ## projects
 -[Arrays and Object Notation](Array_assignment)

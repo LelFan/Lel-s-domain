@@ -43,9 +43,9 @@ function createPizza(){
       rect(width/(difficulty + 1) * (i+1), height/2,big,big);
       
     } 
-    // else {
-    //   fill(222, 165, 80);
-    //   ellipse(width/(difficulty + 1) * (i+1), height/2,big,big);
-    // }
+    else {
+      fill(222, 165, 80);
+      ellipse(width/(difficulty + 1) * (i+1), height/2,big,big);
+    }
   }
 }
