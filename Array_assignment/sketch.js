@@ -9,15 +9,16 @@ let cheese = ["mozarella","moldy cheese", "cheddar", "blue cheese"];
 let pizzaType = ["thin crust","normal crust","square", "thin square"];
 let orders = [];
 let pizz = [];
-let difficulty = 3;
+let difficulty = 5;
 let big = 150;
-let basilSize = 10;
+let basilSize = 0;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   rectMode(CENTER);
   noStroke();
   createOrders();
+  
 }
 
 function draw() {
@@ -29,9 +30,9 @@ function createOrders() {
   for (let i=0; i <difficulty; i++) {
 
     let pizza = {
-      cheese: cheese[round(random(0,4))],
-      topping: toppings[round(random(0,5))],
-      type: pizzaType[round(random(0,4))]
+      cheese: cheese[round(random(0,3.5))],
+      topping: toppings[round(random(0,3.5))],
+      type: pizzaType[round(random(0,3.5))]
     };
     orders.push(pizza);
   }
@@ -43,11 +44,13 @@ function createPizza(){
       fill(222, 165, 80);
       rect(width/(difficulty + 1) * (i+1), height/2,big,big);
       drawCheese(i);
+      drawToppings(i);
     } 
     else {
       fill(222, 165, 80);
       ellipse(width/(difficulty + 1) * (i+1), height/2,big,big);
       drawCheese(i);
+      drawToppings(i);
     }
   }
 }
@@ -82,15 +85,23 @@ function drawCheese(pizza_number){
 }
 
 function drawToppings(pizza_number){
-  if (orders[pizza_number].toppings === "ham") {
+  if (orders[pizza_number].topping === "ham") {
     fill(166, 108, 133); 
   }
-  else if (orders[pizza_number].toppings === "olive") {
+  else if (orders[pizza_number].topping === "olives") {
     noFill();
-    stroke("black");
+    stroke(51);
   }
-  else if (orders[pizza_number].toppings === "pepperoni") {
+  else if (orders[pizza_number].topping === "pepperoni") {
     fill("red")
   }
-  ellipse(width/(difficulty + 1) * (pizza_number+1), height/2 +30, )
+  else if (orders[pizza_number].topping === "basil") {
+    fill("green")
+    basilSize = 5;
+  }
+  ellipse(width/(difficulty + 1) * (pizza_number+1), height/2 +30, 20 - basilSize,20)
+  ellipse(width/(difficulty + 1) * (pizza_number+1) +30 , height/2 -30, 20 - basilSize,20)
+  ellipse(width/(difficulty + 1) * (pizza_number+1) -30 , height/2 -30, 20 - basilSize,20)
+  noStroke();
+  basilSize = 0;
 }
