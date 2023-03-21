@@ -23,7 +23,7 @@ function setup() {
 function draw() {
   background(220);
   createPizza();
-  createButton("wasi")
+  createButton("wasi");
 }
 
 function createOrders() {
@@ -57,16 +57,16 @@ function createPizza(){
 
 function drawCheese(pizza_number){
   if (orders[pizza_number].cheese === "mozarella"){
-    fill("white")
+    fill("white");
   }
   else if (orders[pizza_number].cheese === "blue cheese"){
-    fill(173, 219, 237)
+    fill(173, 219, 237);
   }
   else if (orders[pizza_number].cheese === "cheddar"){ 
-    fill("orange")
+    fill("orange");
   }
   else {
-    fill(131, 179, 102)
+    fill(131, 179, 102);
   }
 
   if (orders[pizza_number].type === "square" ){
@@ -93,22 +93,16 @@ function drawToppings(pizza_number){
     stroke(51);
   }
   else if (orders[pizza_number].topping === "pepperoni") {
-    fill("red")
+    fill("red");
   }
   else if (orders[pizza_number].topping === "basil") {
-    fill("green")
+    fill("green");
     basilSize = 5;
   }
-  ellipse(width/(difficulty + 1) * (pizza_number+1), height/2 +30, 20 - basilSize,20)
-  ellipse(width/(difficulty + 1) * (pizza_number+1) +30 , height/2 -30, 20 - basilSize,20)
-  ellipse(width/(difficulty + 1) * (pizza_number+1) -30 , height/2 -30, 20 - basilSize,20)
+  ellipse(width/(difficulty + 1) * (pizza_number+1), height/2 +30, 20 - basilSize,20);
+  ellipse(width/(difficulty + 1) * (pizza_number+1) +30 , height/2 -30, 20 - basilSize,20);
+  ellipse(width/(difficulty + 1) * (pizza_number+1) -30 , height/2 -30, 20 - basilSize,20);
   noStroke();
   basilSize = 0;
 }
 
-const createButton = (buttonText) => {
-  const btn = document.createElement('button');
-  btn.innerText = buttonText;
-  document.body.appendChild(btn);
-  return btn
-}
