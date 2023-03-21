@@ -18,12 +18,12 @@ function setup() {
   rectMode(CENTER);
   noStroke();
   createOrders();
-  
 }
 
 function draw() {
   background(220);
   createPizza();
+  createButton("wasi")
 }
 
 function createOrders() {
@@ -104,4 +104,11 @@ function drawToppings(pizza_number){
   ellipse(width/(difficulty + 1) * (pizza_number+1) -30 , height/2 -30, 20 - basilSize,20)
   noStroke();
   basilSize = 0;
+}
+
+const createButton = (buttonText) => {
+  const btn = document.createElement('button');
+  btn.innerText = buttonText;
+  document.body.appendChild(btn);
+  return btn
 }
