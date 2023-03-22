@@ -8,6 +8,7 @@
 -[terrain generation](terrain_gen)
 -[da griddy](griddy)
 -[colorgame(johnson vs lel edition)](color_game)
+-[game of life (johnson is missing again)](life_game)
 
 ## projects
 -[Arrays and Object Notation](Array_assignment)
