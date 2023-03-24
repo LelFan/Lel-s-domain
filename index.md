@@ -12,3 +12,4 @@
 
 ## projects
 -[Arrays and Object Notation](Array_assignment)
+-[2d Arrays](2d_array_assignment)
