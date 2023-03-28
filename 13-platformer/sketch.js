@@ -9,7 +9,7 @@
 
 let tiles;
 let levelBackground;
-let platform, coin, box, fly, p1, slime, empty;
+let platform, coin, boxy, fly, p1, slime, empty;
 let tilesHigh, tilesWide;
 let tileWidth, tileHeight;
 let levelToLoad;
@@ -17,7 +17,7 @@ let lines;
 
 function preload() {
   //load level data
-  levelToLoad = "assets/levels/0.txt";
+  levelToLoad = "assets/levels/1.txt";
   lines = loadStrings(levelToLoad);
 
   //load background
@@ -26,7 +26,7 @@ function preload() {
   //load tile images
   platform = loadImage("images/platform.png");
   coin = loadImage("images/coin.png");
-  box = loadImage("images/boxItem.png");
+  boxy = loadImage("images/boxItem.png");
   fly = loadImage("images/flyFly1.png");
   p1 = loadImage("images/p1_front.png");
   slime = loadImage("images/slimeWalk1.png");
@@ -76,7 +76,7 @@ function showTile(location, x, y) {
     image(coin, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
   }
   else if (location === "B") {
-    image(box, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
+    image(boxy, x * tileWidth, y * tileHeight, tileWidth, tileHeight);
   }
   else if (location === "F") {
     image(fly, x * tileWidth, y * tileHeight, tileWidth, tileHeight);

@@ -9,9 +9,10 @@ let grid;
 
 const ROWS = 16;
 const COLS = 16;
-let characterX = 0;
-let characterY = 0;
+let characterX;
+let characterY;
 let cellSize;
+let level = 0;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -91,3 +92,5 @@ function createRandomGrid(ROWS, COLS) {
   }
   return newGrid;
 }
+
+// need to do: Player movement, Dalek movement/turn updates, power ups (bomb, teleport and lives), new levels, 
