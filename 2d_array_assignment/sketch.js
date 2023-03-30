@@ -7,16 +7,19 @@
 
 let grid;
 
-const ROWS = 16;
-const COLS = 16;
+const ROWS = 20;
+const COLS = 20;
 let characterX;
 let characterY;
 let cellSize;
 let level = 0;
+let enemies = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   grid = createRandomGrid(ROWS, COLS);
+  characterX = floor(random(6.5,14.5));
+  characterY = floor(random(6.5,14.5));
   grid[characterY][characterX] = 9;
 
   if (width < height) {
@@ -33,19 +36,32 @@ function draw() {
 }
 
 function keyTyped() {
-  if (key==="s") {
+  if (key==="2") {
     moveCharacter(0,1);
   }
-  if (key==="w") {
+  if (key==="8") {
     moveCharacter(0,-1);
   }
-  if (key==="d") {
+  if (key==="6") {
     moveCharacter(1,0);
   }
-  if (key==="a") {
+  if (key==="4") {
     moveCharacter(-1,0);
   }
+  if (key==="7") {
+    moveCharacter(-1,-1);
+  }
+  if (key==="9") {
+    moveCharacter(1,-1);
+  }
+  if (key==="1") {
+    moveCharacter(-1,1);
+  }
+  if (key==="3") {
+    moveCharacter(1,1);
+  }
 }
+
 
 function moveCharacter(x,y) {
   if (characterX + x >= 0 && characterX + x < COLS && characterY + y >=0 && characterY + y < ROWS){
@@ -82,15 +98,19 @@ function createRandomGrid(ROWS, COLS) {
   for (let y = 0; y < ROWS; y++) {
     newGrid.push([]);
     for (let x = 0; x < COLS; x++) {
-      if (random(100) < 50) {
-        newGrid[y].push(1);
-      }
-      else {
-        newGrid[y].push(0);
-      }
+      newGrid[y].push(0);
     }
+  }
+  for (let i = 0; i < level*2 + 8; i++) {
+    let enemyTempX = [floor(random(0,20))];
+    let enemyTempY = [floor(random(0,20))];
+    newGrid[enemyTempY][enemyTempX] = 1;
   }
   return newGrid;
 }
 
-// need to do: Player movement, Dalek movement/turn updates, power ups (bomb, teleport and lives), new levels, 
+function levelUpdate() {
+
+}
+
+// need to do: Dalek movement/turn updates - make list for movement and position , power ups (bomb, teleport and lives), new levels, 
