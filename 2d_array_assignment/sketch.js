@@ -104,13 +104,18 @@ function createRandomGrid(ROWS, COLS) {
   for (let i = 0; i < level*2 + 8; i++) {
     let enemyTempX = [floor(random(0,20))];
     let enemyTempY = [floor(random(0,20))];
+    let enemy = {
+      X: enemyTempX,
+      Y: enemyTempY
+    };
+    enemies.push(enemy);
     newGrid[enemyTempY][enemyTempX] = 1;
   }
   return newGrid;
 }
 
 function levelUpdate() {
-
+ for (let i = 0; i < enemies.length; i++)
 }
 
-// need to do: Dalek movement/turn updates - make list for movement and position , power ups (bomb, teleport and lives), new levels, 
+// need to do: Dalek movement/turn updates, power ups (bomb, teleport and lives), new levels
