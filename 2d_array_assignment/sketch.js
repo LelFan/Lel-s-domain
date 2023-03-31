@@ -114,8 +114,24 @@ function createRandomGrid(ROWS, COLS) {
   return newGrid;
 }
 
+function createEmptyGrid(ROWS, COLS) {
+  let newGrid = [];
+  for (let y = 0; y < ROWS; y++) {
+    newGrid.push([]);
+    for (let x = 0; x < COLS; x++) {
+      newGrid[y].push(0);
+    }
+  }
+}
+
 function levelUpdate() {
- for (let i = 0; i < enemies.length; i++)
+  let update = createEmptyGrid;
+  for (let i = 0; i < enemies.length; i++) {
+    if (characterX <) {
+      
+    }
+  }
+  return update;
 }
 
 // need to do: Dalek movement/turn updates, power ups (bomb, teleport and lives), new levels
