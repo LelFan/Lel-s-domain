@@ -126,8 +126,9 @@ function createEmptyGrid(ROWS, COLS) {
 
 function levelUpdate() {
   let update = createEmptyGrid;
+  let newEnemies = [];
   for (let i = 0; i < enemies.length; i++) {
-    if (characterX <) {
+    if (characterX < ) {
       
     }
   }
