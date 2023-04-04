@@ -128,10 +128,33 @@ function levelUpdate() {
   let update = createEmptyGrid;
   let newEnemies = [];
   for (let i = 0; i < enemies.length; i++) {
-    if (characterX < ) {
-      
+    let enemyTempX = 0;
+    let enemyTempY = 0;
+    if (characterX < enemies[i].X) {
+      enemyTempX = enemies[i].X - 1;
     }
+    else if (characterX > enemies[i].X) {
+      enemyTempX = enemies[i].X + 1;
+    }
+    else{
+      enemyTempX = enemies[i].X;
+    }
+    if (characterY < enemies[i].Y) {
+      enemyTempX = enemies[i].Y - 1;
+    }
+    else if (characterY > enemies[i].Y) {
+      enemyTempX = enemies[i].Y + 1;
+    }
+    else{
+      enemyTempX = enemies[i].Y;
+    }
+    let newEnemy = {
+      X:enemyTempX,
+      Y:enemyTempY
+    };
+    newEnemies.push(newEnemy);
   }
+  enemies = [...newEnemies];
   return update;
 }
 
