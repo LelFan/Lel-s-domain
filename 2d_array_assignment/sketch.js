@@ -14,6 +14,7 @@ let characterY;
 let cellSize;
 let level = 0;
 let enemies = [];
+let scraps = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -60,6 +61,9 @@ function keyTyped() {
   if (key==="3") {
     moveCharacter(1,1);
   }
+  if (key==="u") {
+    grid = levelUpdate();
+  }
 }
 
 
@@ -102,8 +106,8 @@ function createRandomGrid(ROWS, COLS) {
     }
   }
   for (let i = 0; i < level*2 + 8; i++) {
-    let enemyTempX = [floor(random(0,20))];
-    let enemyTempY = [floor(random(0,20))];
+    let enemyTempX = floor(random(0,20));
+    let enemyTempY = floor(random(0,20));
     let enemy = {
       X: enemyTempX,
       Y: enemyTempY
@@ -122,10 +126,11 @@ function createEmptyGrid(ROWS, COLS) {
       newGrid[y].push(0);
     }
   }
+  return newGrid;
 }
 
 function levelUpdate() {
-  let update = createEmptyGrid;
+  let update = createEmptyGrid(ROWS,COLS);
   let newEnemies = [];
   for (let i = 0; i < enemies.length; i++) {
     let enemyTempX = 0;
@@ -140,13 +145,13 @@ function levelUpdate() {
       enemyTempX = enemies[i].X;
     }
     if (characterY < enemies[i].Y) {
-      enemyTempX = enemies[i].Y - 1;
+      enemyTempY = enemies[i].Y - 1;
     }
     else if (characterY > enemies[i].Y) {
-      enemyTempX = enemies[i].Y + 1;
+      enemyTempY = enemies[i].Y + 1;
     }
     else{
-      enemyTempX = enemies[i].Y;
+      enemyTempY = enemies[i].Y;
     }
     let newEnemy = {
       X:enemyTempX,
@@ -155,6 +160,14 @@ function levelUpdate() {
     newEnemies.push(newEnemy);
   }
   enemies = [...newEnemies];
+  // for (let i = 0; i < scraps.length; i++) {
+    
+  // }
+  for (let i = 0; i < enemies.length; i++) {
+    if (update[enemies[i].Y][enemies[i].X] === 0) {
+      update[enemies[i].Y][enemies[i].X] = 1;
+    }
+  }
   return update;
 }
 
