@@ -92,6 +92,9 @@ function displayGrid() {
       else if(grid[y][x]===9) {
         fill("red");
       }
+      else if (grid[y][x]===2) {
+        fill("brown");
+      }
       rect(x * cellSize, y * cellSize, cellSize, cellSize);
     }
   }
@@ -160,14 +163,32 @@ function levelUpdate() {
     newEnemies.push(newEnemy);
   }
   enemies = [...newEnemies];
-  // for (let i = 0; i < scraps.length; i++) {
-    
-  // }
+  for (let i = 0; i < scraps.length; i++) {
+    update[scraps[i].Y][scraps[i].X] = 2;
+  }
   for (let i = 0; i < enemies.length; i++) {
     if (update[enemies[i].Y][enemies[i].X] === 0) {
       update[enemies[i].Y][enemies[i].X] = 1;
     }
+    else if (update[enemies[i].Y][enemies[i].X] === 1) {
+      update[enemies[i].Y][enemies[i].X] = 2;
+      let scrap = {
+        X: enemies[i].X,
+        Y: enemies[i].Y
+      };
+      scraps.push(scrap);
+      for (let j = enemies.length -1; j > 0; j--) {
+        if (enemies[j].X === enemies[i].X && enemies[j].Y === enemies[i].Y) {
+          enemies.splice(j,1);
+        }
+        enemies.splice(i,1);  
+      }
+    }
+    else if (update[enemies[i].Y][enemies[i].X] === 2) {
+      enemies.splice(i,1);
+    }
   }
+  update[characterY][characterX] = 9;
   return update;
 }
 
