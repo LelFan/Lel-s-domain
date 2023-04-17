@@ -61,7 +61,7 @@ function keyTyped() {
   if (key==="3") {
     moveCharacter(1,1);
   }
-  if (key==="u") {
+  if (key==="5") {
     grid = levelUpdate();
   }
 }
@@ -177,12 +177,13 @@ function levelUpdate() {
         Y: enemies[i].Y
       };
       scraps.push(scrap);
-      for (let j = enemies.length -1; j > 0; j--) {
-        if (enemies[j].X === enemies[i].X && enemies[j].Y === enemies[i].Y) {
-          enemies.splice(j,1);
-        }
-        enemies.splice(i,1);  
+      let tempEnemies = [];
+      for (let j = 0; j < enemies.length; j++) {
+        if (enemies[j].X !== enemies[i].X || enemies[j].Y !== enemies[i].Y) {
+          tempEnemies.push(enemies[j]);
+        }  
       }
+      enemies = tempEnemies;
     }
     else if (update[enemies[i].Y][enemies[i].X] === 2) {
       enemies.splice(i,1);
