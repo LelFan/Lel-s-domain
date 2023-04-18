@@ -30,6 +30,8 @@ function setup() {
   else {
     cellSize = height/ROWS;
   }
+  textAlign(CENTER);
+  textSize(20);
 }
 
 function draw() {
@@ -43,6 +45,8 @@ function draw() {
     grid = createRandomGrid(ROWS, COLS);
     grid[characterY][characterX] = 9;
   }
+  fill("black");
+  instructionsAndCounts();
 }
 
 function keyTyped() {
@@ -211,7 +215,7 @@ function levelUpdate() {
     update[enemy.Y][enemy.X] = 1;
   }
   if (grid[characterY][characterX]=== 1 ||grid[characterY][characterX]=== 2){
-    
+    gameOver();
   }
   update[characterY][characterX] = 9;
   grid = update;
@@ -249,4 +253,14 @@ function teleport() {
   teleports--;
 }
 
+function gameOver() {
+
+}
+
+function instructionsAndCounts() {
+  text("Use Number pad to move. Use z for teleport and x for bomb.", height*1.5, height*0.3);
+  text("bomb count:" + bombs, height*1.5, height*0.4);
+  text("level:" + level, height*1.5, height*0.5);
+
+}
 //new levels
