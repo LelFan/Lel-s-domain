@@ -259,8 +259,8 @@ function gameOver() {
 
 function instructionsAndCounts() {
   text("Use Number pad to move. Use z for teleport and x for bomb.", height*1.5, height*0.3);
-  text("bomb count:" + bombs, height*1.5, height*0.4);
-  text("level:" + level, height*1.5, height*0.5);
+  text("bomb count: " + bombs, height*1.5, height*0.4);
+  text("level: " + level, height*1.5, height*0.5);
 
 }
 //new levels
