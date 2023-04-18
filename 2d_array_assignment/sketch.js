@@ -1,6 +1,6 @@
-// Project Title
-// Your Name
-// Date
+// Daleks
+// Wasi M.
+// April 17th 2023
 //
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
@@ -12,15 +12,16 @@ const COLS = 20;
 let characterX;
 let characterY;
 let cellSize;
-let level = 0;
+let level = 1;
 let enemies = [];
 let scraps = [];
+let bombs = 2;
+let teleports = 2;
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   grid = createRandomGrid(ROWS, COLS);
-  characterX = floor(random(6.5,14.5));
-  characterY = floor(random(6.5,14.5));
   grid[characterY][characterX] = 9;
 
   if (width < height) {
@@ -34,6 +35,14 @@ function setup() {
 function draw() {
   background(220);
   displayGrid();
+  if (enemies.length=== 0) {
+    scraps = [];
+    bombs = 2;
+    teleports = 2;
+    level++;
+    grid = createRandomGrid(ROWS, COLS);
+    grid[characterY][characterX] = 9;
+  }
 }
 
 function keyTyped() {
@@ -61,8 +70,14 @@ function keyTyped() {
   if (key==="3") {
     moveCharacter(1,1);
   }
-  if (key==="5") {
-    grid = levelUpdate();
+  if (key==="z") {
+    if (teleports > 0){
+      grid[characterY][characterX] = 0;
+      teleport();
+    }
+  }
+  if (key==="x") {
+    bomb();
   }
 }
 
@@ -78,6 +93,7 @@ function moveCharacter(x,y) {
     grid[characterY][characterX] = 9;
     grid[tempY][tempX] =0;
   }
+  levelUpdate();
 }
 
 function displayGrid() {
@@ -101,6 +117,8 @@ function displayGrid() {
 }
 
 function createRandomGrid(ROWS, COLS) {
+  characterX = floor(random(6.5,14.5));
+  characterY = floor(random(6.5,14.5));
   let newGrid = [];
   for (let y = 0; y < ROWS; y++) {
     newGrid.push([]);
@@ -108,7 +126,7 @@ function createRandomGrid(ROWS, COLS) {
       newGrid[y].push(0);
     }
   }
-  for (let i = 0; i < level*2 + 8; i++) {
+  for (let i = 0; i < level*2 + 6; i++) {
     let enemyTempX = floor(random(0,20));
     let enemyTempY = floor(random(0,20));
     let enemy = {
@@ -189,8 +207,46 @@ function levelUpdate() {
       enemies.splice(i,1);
     }
   }
+  for (let enemy of enemies) {
+    update[enemy.Y][enemy.X] = 1;
+  }
+  if (grid[characterY][characterX]=== 1 ||grid[characterY][characterX]=== 2){
+    
+  }
   update[characterY][characterX] = 9;
-  return update;
+  grid = update;
 }
 
-// need to do: Dalek movement/turn updates, power ups (bomb, teleport and lives), new levels
+function bomb() {
+  if (bombs > 0) {
+    for (let x = -1; x < 2; x++) {
+      for (let y = -1; y < 2; y++) {
+        for (let enemyInList = 0; enemyInList < enemies.length; enemyInList++) {
+          if (enemies[enemyInList].X ===characterX + x && enemies[enemyInList].Y === characterY + y){
+            let scrap = {
+              X: enemies[enemyInList].X,
+              Y: enemies[enemyInList].Y
+            };
+            scraps.push(scrap);
+            enemies.splice(enemyInList,1);
+          }
+        }
+      }
+    }
+    bombs--;
+    levelUpdate();
+  }
+}
+
+function teleport() {
+  characterX = floor(random(0.5,20.5));
+  characterY = floor(random(0.5,20.5));
+  if (grid[characterY][characterX]=== 1 ||grid[characterY][characterX]=== 2){
+    teleport();
+  }
+
+  grid[characterY][characterX] = 9;
+  teleports--;
+}
+
+//new levels
