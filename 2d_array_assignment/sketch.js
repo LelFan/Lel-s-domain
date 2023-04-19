@@ -17,6 +17,7 @@ let enemies = [];
 let scraps = [];
 let bombs = 2;
 let teleports = 2;
+let highscore = 1;
 
 
 function setup() {
@@ -31,25 +32,19 @@ function setup() {
     cellSize = height/ROWS;
   }
   textAlign(CENTER);
-  textSize(20);
 }
 
 function draw() {
-  background(220);
+  background(255);
   displayGrid();
-  if (enemies.length=== 0) {
-    scraps = [];
-    bombs = 2;
-    teleports = 2;
-    level++;
-    grid = createRandomGrid(ROWS, COLS);
-    grid[characterY][characterX] = 9;
-  }
   fill("black");
   instructionsAndCounts();
 }
 
 function keyTyped() {
+  if (enemies.length=== 0) {
+    newLevel();
+  }
   if (key==="2") {
     moveCharacter(0,1);
   }
@@ -214,7 +209,7 @@ function levelUpdate() {
   for (let enemy of enemies) {
     update[enemy.Y][enemy.X] = 1;
   }
-  if (grid[characterY][characterX]=== 1 ||grid[characterY][characterX]=== 2){
+  if (update[characterY][characterX]=== 1 || update[characterY][characterX]=== 2){
     gameOver();
   }
   update[characterY][characterX] = 9;
@@ -254,13 +249,34 @@ function teleport() {
 }
 
 function gameOver() {
-
+  scraps = [];
+  bombs = 2;
+  teleports = 2;
+  level = 1; 
+  grid = createRandomGrid(ROWS, COLS)
 }
 
 function instructionsAndCounts() {
+  textSize(40);
+  text("Daleks", height*1.5, height*0.2);
+  textSize(20);
   text("Use Number pad to move. Use z for teleport and x for bomb.", height*1.5, height*0.3);
-  text("bomb count: " + bombs, height*1.5, height*0.4);
-  text("level: " + level, height*1.5, height*0.5);
+  text("Destroy Daleks by making them run into each other or use the bomb.", height*1.5, height*0.33);
+  text("Don't run into the Daleks or the scrap and survive the onslaught.", height*1.5, height*0.36);
+  text("bomb count: " + bombs +"      teleports: " + teleports, height*1.5, height*0.45);
+  text("level: " + level + "                highscore: " + highscore, height*1.5, height*0.5);
 
+}
+
+function newLevel(){
+  scraps = [];
+  bombs = 2;
+  teleports = 2;
+  level++;
+  grid = createRandomGrid(ROWS, COLS);
+  grid[characterY][characterX] = 9;
+  if (level > highscore){
+    highscore++;
+  }
 }
 //new levels
