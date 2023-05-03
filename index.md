@@ -11,6 +11,7 @@
 -[game of life (johnson is missing again)](life_game)
 -[Johnson walks (gone wrong)](walker_oop)
 -[Johnson becomes fire(gone missing at 3 am)](firework_oop)
+-[Johnson has balls (he made an oop)](ball_oop)
 
 ## projects
 -[Arrays and Object Notation](Array_assignment)
