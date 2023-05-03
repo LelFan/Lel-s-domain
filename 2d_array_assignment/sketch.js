@@ -3,10 +3,11 @@
 // April 17th 2023
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// I created the levelUpdate function that tackles a lot of different game logic.
 
+
+//setting up
 let grid;
-
 const ROWS = 20;
 const COLS = 20;
 let characterX;
@@ -20,31 +21,40 @@ let teleports = 2;
 let highscore = 1;
 
 
+
+function preload() {
+  enemyImg = loadImage("turret.png");
+  playerImg = loadImage("player.png");
+  fireImg = loadImage("fire.png");
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  grid = createRandomGrid(ROWS, COLS);
-  grid[characterY][characterX] = 9;
+  grid = createRandomGrid(ROWS, COLS); //creating first level
+  grid[characterY][characterX] = 9; //spawing player
 
+  //determining cell size for grid
   if (width < height) {
     cellSize = width/ROWS;
   }
   else {
     cellSize = height/ROWS;
   }
-  textAlign(CENTER);
+  textAlign(CENTER); //later set up
 }
 
 function draw() {
+  if (enemies.length=== 0) {
+    newLevel(); //level completetion check
+  }
   background(255);
   displayGrid();
   fill("black");
-  instructionsAndCounts();
+  instructionsAndCounts(); //text for intructions and showing different stats
 }
 
 function keyTyped() {
-  if (enemies.length=== 0) {
-    newLevel();
-  }
+  //number keys are used for directional movement
   if (key==="2") {
     moveCharacter(0,1);
   }
@@ -69,19 +79,20 @@ function keyTyped() {
   if (key==="3") {
     moveCharacter(1,1);
   }
-  if (key==="z") {
+  if (key==="z") { //using teleport
     if (teleports > 0){
       grid[characterY][characterX] = 0;
       teleport();
+      teleports--;
     }
   }
-  if (key==="x") {
+  if (key==="x") { //using bomb
     bomb();
   }
 }
 
 
-function moveCharacter(x,y) {
+function moveCharacter(x,y) { //changes player location according to key pressed
   if (characterX + x >= 0 && characterX + x < COLS && characterY + y >=0 && characterY + y < ROWS){
     let tempX = characterX;
     let tempY = characterY;
@@ -92,25 +103,28 @@ function moveCharacter(x,y) {
     grid[characterY][characterX] = 9;
     grid[tempY][tempX] =0;
   }
-  levelUpdate();
+  levelUpdate(); //updates enemies and other things after player moves
 }
 
 function displayGrid() {
   for (let y = 0; y < ROWS; y++) {
     for (let x = 0; x < COLS; x++) {
       if (grid[y][x] === 1) {
-        fill("black");
+        rect(x * cellSize, y * cellSize, cellSize, cellSize);
+        image(enemyImg, x * cellSize, y * cellSize, cellSize, cellSize); //drawing enemy
       }
       else if (grid[y][x] === 0) {
         fill("white");
+        rect(x * cellSize, y * cellSize, cellSize, cellSize); //drawing open space
       }
-      else if(grid[y][x]===9) {
-        fill("red");
+      else if(grid[y][x]===9) {      
+        rect(x * cellSize, y * cellSize, cellSize, cellSize);
+        image(playerImg, x * cellSize, y * cellSize, cellSize, cellSize); //drawing player
       }
       else if (grid[y][x]===2) {
-        fill("brown");
+        rect(x * cellSize, y * cellSize, cellSize, cellSize);
+        image(fireImg, x * cellSize, y * cellSize, cellSize, cellSize); //drawing fire
       }
-      rect(x * cellSize, y * cellSize, cellSize, cellSize);
     }
   }
 }
@@ -138,7 +152,7 @@ function createRandomGrid(ROWS, COLS) {
   return newGrid;
 }
 
-function createEmptyGrid(ROWS, COLS) {
+function createEmptyGrid(ROWS, COLS) { //creates empty grid for level updates
   let newGrid = [];
   for (let y = 0; y < ROWS; y++) {
     newGrid.push([]);
@@ -151,7 +165,7 @@ function createEmptyGrid(ROWS, COLS) {
 
 function levelUpdate() {
   let update = createEmptyGrid(ROWS,COLS);
-  let newEnemies = [];
+  let newEnemies = []; //list used for new enemy positions
   for (let i = 0; i < enemies.length; i++) {
     let enemyTempX = 0;
     let enemyTempY = 0;
@@ -180,12 +194,13 @@ function levelUpdate() {
     newEnemies.push(newEnemy);
   }
   enemies = [...newEnemies];
+  //all logic above is enemy movement according to player position
   for (let i = 0; i < scraps.length; i++) {
-    update[scraps[i].Y][scraps[i].X] = 2;
+    update[scraps[i].Y][scraps[i].X] = 2; //creating "scraps", which ended up being fire due to lack of desirable png
   }
   for (let i = 0; i < enemies.length; i++) {
     if (update[enemies[i].Y][enemies[i].X] === 0) {
-      update[enemies[i].Y][enemies[i].X] = 1;
+      update[enemies[i].Y][enemies[i].X] = 1; //logic for moving enemy to an empty spot
     }
     else if (update[enemies[i].Y][enemies[i].X] === 1) {
       update[enemies[i].Y][enemies[i].X] = 2;
@@ -193,27 +208,27 @@ function levelUpdate() {
         X: enemies[i].X,
         Y: enemies[i].Y
       };
-      scraps.push(scrap);
+      scraps.push(scrap); //creating "scrap" at enemy collison
       let tempEnemies = [];
       for (let j = 0; j < enemies.length; j++) {
         if (enemies[j].X !== enemies[i].X || enemies[j].Y !== enemies[i].Y) {
-          tempEnemies.push(enemies[j]);
+          tempEnemies.push(enemies[j]); //deleting enemies that collided
         }  
       }
-      enemies = tempEnemies;
+      enemies = tempEnemies; //saving new enemy list
     }
     else if (update[enemies[i].Y][enemies[i].X] === 2) {
-      enemies.splice(i,1);
+      enemies.splice(i,1); //logic for enemy hitting "scrap"
     }
   }
   for (let enemy of enemies) {
-    update[enemy.Y][enemy.X] = 1;
+    update[enemy.Y][enemy.X] = 1; //bs check
   }
   if (update[characterY][characterX]=== 1 || update[characterY][characterX]=== 2){
-    gameOver();
+    update = gameOver(); //game over if player hits enemy or "scrap"
   }
   update[characterY][characterX] = 9;
-  grid = update;
+  grid = update; 
 }
 
 function bomb() {
@@ -221,19 +236,19 @@ function bomb() {
     for (let x = -1; x < 2; x++) {
       for (let y = -1; y < 2; y++) {
         for (let enemyInList = 0; enemyInList < enemies.length; enemyInList++) {
-          if (enemies[enemyInList].X ===characterX + x && enemies[enemyInList].Y === characterY + y){
+          if (enemies[enemyInList].X ===characterX + x && enemies[enemyInList].Y === characterY + y){ // checks if enemy is in any adjacent square to the player
             let scrap = {
               X: enemies[enemyInList].X,
               Y: enemies[enemyInList].Y
             };
             scraps.push(scrap);
-            enemies.splice(enemyInList,1);
+            enemies.splice(enemyInList,1); //destroys enemies that are adjacent 
           }
         }
       }
     }
-    bombs--;
-    levelUpdate();
+    bombs--; //takes away a bomb from the player
+    levelUpdate(); 
   }
 }
 
@@ -241,22 +256,22 @@ function teleport() {
   characterX = floor(random(0.5,20.5));
   characterY = floor(random(0.5,20.5));
   if (grid[characterY][characterX]=== 1 ||grid[characterY][characterX]=== 2){
-    teleport();
+    teleport(); // if player teleports to a "scrap" or enemy reruns the randomizer
   }
-
   grid[characterY][characterX] = 9;
-  teleports--;
 }
 
-function gameOver() {
+function gameOver() { //resets variables and grid when player loses
   scraps = [];
+  enemies = []; 
   bombs = 2;
   teleports = 2;
   level = 1; 
   grid = createRandomGrid(ROWS, COLS)
+  return grid;
 }
 
-function instructionsAndCounts() {
+function instructionsAndCounts() { //text for instructions and other variables
   textSize(40);
   text("Daleks", height*1.5, height*0.2);
   textSize(20);
@@ -268,7 +283,7 @@ function instructionsAndCounts() {
 
 }
 
-function newLevel(){
+function newLevel(){ //creates a new level and resets certain variables
   scraps = [];
   bombs = 2;
   teleports = 2;
@@ -276,7 +291,6 @@ function newLevel(){
   grid = createRandomGrid(ROWS, COLS);
   grid[characterY][characterX] = 9;
   if (level > highscore){
-    highscore++;
+    highscore++; //updates highscore
   }
 }
-//new levels
